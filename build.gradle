@@ -1,0 +1,4 @@
+tasks.register("cleanRoot", Delete) {
+    group 'build'
+    delete(buildDir)
+}

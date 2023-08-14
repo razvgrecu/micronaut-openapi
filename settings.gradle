@@ -1,0 +1,3 @@
+rootProject.name = "demo1"
+
+include ':api:common', ':api:test1', ':api:test2', ':api:test3', ':server'
