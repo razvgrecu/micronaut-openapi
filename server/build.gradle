@@ -2,6 +2,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("io.micronaut.application") version "4.0.2"
     id("io.micronaut.aot") version "4.0.2"
+    id "org.openapi.generator" version "7.0.0-beta"
 }
 
 version = "0.1"
@@ -38,9 +39,10 @@ java {
 tasks.withType(JavaCompile).configureEach {
     options.fork = true
     outputs.cacheIf {false }
+    outputs.upToDateWhen { false }
     options.forkOptions.jvmArgs << '-Dmicronaut.openapi.property.naming.strategy=KEBAB_CASE'
     options.forkOptions.jvmArgs << "-Dmicronaut.openapi.additional.files=${rootProject.buildDir}/openapi-parts".toString()
-    options.forkOptions.jvmArgs << "-Dmicronaut.openapi.target.file=${rootProject.buildDir}/artifacts/openapi/openapi.yml".toString()
+    options.forkOptions.jvmArgs << "-Dmicronaut.openapi.target.file=${rootProject.buildDir}/specs/openapi.yaml".toString()
 }
 
 graalvmNative.toolchainDetection = false
@@ -64,5 +66,12 @@ micronaut {
     }
 }
 
-
+openApiGenerate {
+    generatorName = "typescript-axios"
+    inputSpec = "${rootProject.buildDir}/specs/openapi.yaml"
+    outputDir = "$buildDir/generated/openapi-axios"
+    apiPackage = "org.openapi.example.api"
+    invokerPackage = "org.openapi.example.invoker"
+    modelPackage = "org.openapi.example.model"
+}
 

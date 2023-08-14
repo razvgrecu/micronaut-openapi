@@ -7,8 +7,10 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Patch;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Controller("/api/test1")
+@Tag(name = "Test1")
 public interface Test1Api {
     @Get(value = "available", processes = "application/json")
     BooleanValue isAvailable();
